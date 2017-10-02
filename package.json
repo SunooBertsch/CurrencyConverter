@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SunooBertsch/d3Visualization/issues"
   },
-  "homepage": "https://github.com/SunooBertsch/d3Visualization#readme"
+  "homepage": "https://github.com/SunooBertsch/d3Visualization#readme",
+  "dependencies": {
+    "express": "^4.16.1"
+  }
 }
