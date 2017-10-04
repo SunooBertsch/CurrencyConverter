@@ -8,15 +8,19 @@ module.exports = app => {
   var client = new RTM(endpoint, appKey);
 
   client.on("enter-connected", function() {
-    console.log("Connected to Satori RTM!");
+    if (module.exports.data !== undefined) {
+      console.log("Updating data feed!");
+    } else {
+      console.log("Connected to Satori RTM!");
+    }
   });
 
   var subscription = client.subscribe(channel, RTM.SubscriptionMode.SIMPLE, {
-    history: { count: 1 }
+    history: { count: 10 }
   });
 
   subscription.on("rtm/subscription/data", function(pdu) {
-    pdu.body.messages.forEach(async msg => {
+    pdu.body.messages.forEach(msg => {
       module.exports.data = msg;
     });
   });
