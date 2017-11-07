@@ -2,17 +2,13 @@ module.exports = app => {
   var RTM = require("satori-rtm-sdk");
 
   var endpoint = "wss://open-data.api.satori.com";
-  var appKey = "059fbd3a4bEfF9ed19A2fc589D9cb2bF";
-  var channel = "exchange-rates";
+  var appKey = "Cf94eaFF201c1FBF1eFc2aedb90BBF36";
+  var channel = "USGS-Earthquakes";
 
   var client = new RTM(endpoint, appKey);
 
   client.on("enter-connected", function() {
-    if (module.exports.data !== undefined) {
-      console.log("Updating data feed!");
-    } else {
-      console.log("Connected to Satori RTM!");
-    }
+    console.log("Connected to Satori Earthquake Data!");
   });
 
   var subscription = client.subscribe(channel, RTM.SubscriptionMode.SIMPLE, {
@@ -20,9 +16,8 @@ module.exports = app => {
   });
 
   subscription.on("rtm/subscription/data", function(pdu) {
-    pdu.body.messages.forEach(msg => {
-      console.log("msg", msg);
-      module.exports.data = msg;
+    pdu.body.messages.forEach(function(msg) {
+      module.exports.feed = msg;
     });
   });
 
