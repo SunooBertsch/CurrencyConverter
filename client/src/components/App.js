@@ -14,7 +14,7 @@ class App extends Component {
     const { dispatch } = this.props;
     socket = io.connect("http://localhost:3123");
     //this.props.dataFeed(socket);
-    this.props.fetchValues();
+    //this.props.fetchValues();
   }
 
   render() {

@@ -1,18 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { subscribeToTimer } from "../api";
 
 class CurrencyTable extends Component {
-  componentWillMount() {
-    console.log("props", this.props.values);
+  constructor(props) {
+    super(props);
+    this.state = {
+      timestamp: "no timestamp yet"
+    };
+    subscribeToTimer((err, timestamp) => {
+      this.setState({
+        timestamp
+      });
+    });
   }
   render() {
-    const values = this.props.values;
-    console.log("values", values);
-    if (values === undefined) {
-      return <ul>hello</ul>;
-    } else {
-      return <ul>Hello</ul>;
-    }
+    return this.state.timestamp;
   }
 }
 

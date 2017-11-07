@@ -1,5 +1,5 @@
 const express = require("express");
-const socket = require("socket.io");
+const io = require("socket.io")();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const keys = require("./config/keys");
@@ -17,12 +17,21 @@ app.use((req, res, next) => {
     next();
 });
 
-const server = http.createServer(app);
-const io = require("socket.io").listen(server);
-server.listen(3123);
-
 const Satori = require("./dataFeed/satori");
-Satori();
+const server = http.createServer(app);
+io.on("connection", client => {
+  client.on("subscribeToTimer", interval => {
+    console.log("client is subscribing to timer with interval ", interval);
+    setInterval(() => {
+      client.emit("timer", new Date());
+    }, interval);
+  });
+});
+
+const port = 8000;
+io.listen(port);
+console.log("listening on port ", port);
+
 // const Test = require("./test");
 // Test();
 
@@ -33,7 +42,6 @@ Satori();
 //     io.emit("Data feed", msg);
 //   });
 // });
-
 require("./routes/currencyRoutes")(app);
 
 const PORT = process.env.PORT || 5000;
