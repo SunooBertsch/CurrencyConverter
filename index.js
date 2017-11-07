@@ -18,12 +18,15 @@ app.use((req, res, next) => {
 });
 
 const Satori = require("./dataFeed/satori");
+Satori();
+
 const server = http.createServer(app);
 io.on("connection", client => {
   client.on("subscribeToTimer", interval => {
     console.log("client is subscribing to timer with interval ", interval);
+    console.log("satori", Satori.data);
     setInterval(() => {
-      client.emit("timer", new Date());
+      client.emit("timer", Satori.data);
     }, interval);
   });
 });

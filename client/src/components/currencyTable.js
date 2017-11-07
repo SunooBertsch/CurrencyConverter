@@ -15,7 +15,16 @@ class CurrencyTable extends Component {
     });
   }
   render() {
-    return this.state.timestamp;
+    const data = this.state.timestamp;
+    if (data.rates) {
+      const array = Object.entries(data.rates);
+      const rendered = array.map(val => {
+        console.log(val);
+        return <li>{val[0] + ":  " + val[1].toFixed(2)}</li>;
+      });
+      return <ul>{rendered}</ul>;
+    }
+    return <ul>Hello</ul>;
   }
 }
 

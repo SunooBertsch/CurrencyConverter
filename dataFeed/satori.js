@@ -21,7 +21,6 @@ module.exports = app => {
 
   subscription.on("rtm/subscription/data", function(pdu) {
     pdu.body.messages.forEach(msg => {
-      console.log("msg", msg);
       module.exports.data = msg;
     });
   });
